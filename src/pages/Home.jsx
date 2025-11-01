@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import swapiData from "../services/swapi.js";
+import CardList from "../components/CardList.jsx";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   const { state, dispatch } = useGlobalReducer();
@@ -26,14 +28,20 @@ export const Home = () => {
     verifyLocalStoreData("people", "setPeople");
     verifyLocalStoreData("planets", "setPlanets");
     verifyLocalStoreData("starships", "setStarships");
+    verifyLocalStoreData("films", "setFilms");
+    verifyLocalStoreData("species", "setSpecies");
+    verifyLocalStoreData("vehicles", "setVehicles");
   }, []);
 console.log(state);
   return (
     <div className="text-center mt-5">
-      <h1>Hello Rigo!!</h1>
-      <p>
-       
-      </p>
+      <Link to={"#films"}>Films</Link>
+      <CardList id="people" items={state.people}></CardList>
+      <CardList id="planets" items={state.planets}></CardList>
+      <CardList id="starships" items={state.starships}></CardList>
+      <CardList id="vehicles" items={state.vehicles}></CardList>
+      <CardList id="species" items={state.species}></CardList>
+      <CardList id="films" items={state.films}></CardList>
     </div>
   );
 };

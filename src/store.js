@@ -2,7 +2,10 @@ export const initialState=()=>{
   return{
     people:[],
     planets:[],
-    starships:[]
+    starships:[],
+    vehicles:[],
+    species:[],
+    films:[]
   }
 }
 
@@ -16,6 +19,16 @@ export default function stateReducer(state, action = {}) {
 
     case 'setStarships':
       return { ...state, starships: action.payload };
+    
+    case 'setFilms':
+      return { ...state, films: action.payload };
+
+    case 'setSpecies':
+      return { ...state, species: action.payload };
+
+    case 'setVehicles':
+      return { ...state, vehicles: action.payload };
+
 
     default:
       throw state
