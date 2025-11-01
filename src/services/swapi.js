@@ -1,7 +1,7 @@
 const swapiData = async (cosa) => {
   try {
 
-    const request = await fetch(`https://www.swapi.tech/api/${cosa}/?page=*&limit=*`);
+    const request = await fetch(`https://www.swapi.tech/api/${cosa}/?expanded=true&page=*&limit=*`);
     if (!request.ok) {
       throw new Error(`Error en la API: ${request.statusText}`);
     }

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export function Navbar({ favorites = [] }) {
   return (
-    <nav id="mainNav" className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav id="mainNav" className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div className="container-fluid">
         
         
@@ -34,22 +34,22 @@ export function Navbar({ favorites = [] }) {
          
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
-				<Link className="nav-link" to={"#people"}>People</Link>
+				<a className="nav-link" href="#gente">People</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"#films"}>Films</Link>
+              <a className="nav-link" href="#peliculas">Films</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#planetsList">Planets</a>
+              <a className="nav-link" href="#planetas">Planets</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#speciesList">Species</a>
+              <a className="nav-link" href="#especies">Species</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#starshipsList">Starships</a>
+              <a className="nav-link" href="#naves">Starships</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#vehiclesList">Vehicles</a>
+              <a className="nav-link" href="#vehiculos">Vehicles</a>
             </li>
           </ul>
 
