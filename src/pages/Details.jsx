@@ -46,10 +46,10 @@ function Details() {
     imageUrl: `/assets/img/${category}/${id}.jpg`
   };
 
-  const planetId= targetData.properties.homeworld.slice("planets/")[1];
-  const vehicleId= targetData.properties.vehicles.map(vehicle=> vehicle.slice("vehicles/")[1])
-  const starshipsId= targetData.properties.starships.map(starship=> starship.slice("starships/")[1])
-  const filmsId= targetData.properties.films.map(film=> film.slice("films/")[1])
+  const planetId= targetData.properties.homeworld.split("planets/")[1];
+  const vehicleId= targetData.properties.vehicles.map(vehicle=> vehicle.split("vehicles/")[1])
+  const starshipsId= targetData.properties.starships.map(starship=> starship.split("starships/")[1])
+  const filmsId= targetData.properties.films.map(film=> film.split("films/")[1])
   
   
   const dataGrid = [
