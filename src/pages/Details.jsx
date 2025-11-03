@@ -38,25 +38,52 @@ function Details() {
 
 
   const targetData = state[category].find(item => item.uid == id);
-  console.log(targetData.properties.name)
+  
 
   const character = {
-    name: "targetData.properties.name",
-    description: "Luke Skywalker was a Tatooine farmboy who rose from humble beginnings to become one of the greatest Jedi the galaxy has ever known. Along with his friends Princess Leia and Han Solo, Luke battled the evil Empire, discovered the truth of his parentage, and ended the tyranny of the Sith. A generation later, the location of the famed Jedi master was one of the galaxy's greatest mysteries. Haunted by Ben Solo's fall to evil and convinced the Jedi had to end, Luke sought exile on a distant world, ignoring the galaxy's pleas for help. But his solitude would be interrupted – and Luke Skywalker had one final, momentous role to play in the struggle between good and evil.",
-    imageUrl: "/path/to/your/luke-skywalker-image.jpg" 
+    name: targetData.properties.name||"",
+    description:  targetData.description||"",
+    imageUrl: `/assets/img/${category}/${id}.jpg`
   };
 
+  const planetId= targetData.properties.homeworld.slice("planets/")[1];
+  const vehicleId= targetData.properties.vehicles.map(vehicle=> vehicle.slice("vehicles/")[1])
+  const starshipsId= targetData.properties.starships.map(starship=> starship.slice("starships/")[1])
+  const filmsId= targetData.properties.films.map(film=> film.slice("films/")[1])
+  
   
   const dataGrid = [
-    { title: "APPEARANCES", items: ["Star Wars: Episode III Revenge of the Sith", "Star Wars: Episode IV A New Hope", "Star Wars: Episode V The Empire Strikes Back", "Star Wars: Episode VI Return of the Jedi", "Star Wars: Episode VII The Force Awakens", "Star Wars: Episode VIII The Last Jedi", "Star Wars Rebels"] },
-    { title: "AFFILIATIONS", items: ["Rebel Alliance", "Jedi Order"] },
-    { title: "LOCATIONS", items: ["Polis Massa", "Lars Moisture Farm", "Tatooine"] },
-    { title: "GENDER", items: ["Male"] },
-    { title: "DIMENSIONS", items: ["Height: 1.72m"] },
-    { title: "SPECIES", items: ["Human"] },
-    { title: "VEHICLES", items: ["T-16 Skyhopper", "X-34 Landspeeder", "X-wing Starfighter", "Snowspeeder"] },
-    { title: "WEAPONS", items: ["Lightsaber", "Blaster Pistol", "Luke Skywalker's Lightsaber (Green Blade)", "Anakin, Luke, and Rey's Lightsaber"] },
-    { title: "TOOL", items: ["Bacta Tank", "Moisture Vaporator"] }
+    { title: "GENDER", items: [targetData.properties.gender] },
+    { title: "MASS", items: [targetData.properties.mass] },
+    { title: "HEIGHT", items: [targetData.properties.height] },
+    { title: "HOMEWORLD", items: [state.planets.find(planets=>planets.uid==planetId).properties.name, <img 
+            src={`/assets/img/planets/${planetId}.jpg`} 
+            alt={`img from ${state.planets.find(planets=>planets.uid==planetId).properties.name} `} 
+            className="img-fluid w-100 rounded" 
+            
+            onError={e => e.target.src = ''}
+          />] },
+    { title: "VEHICLES", items: vehicleId.map(id=>{ state.vehicles.find(vehicles=>vehicles.uid==id).properties.name, <img 
+            src={`/assets/img/vehicles/${id}.jpg`} 
+            alt={`img from ${state.vehicles.find(vehicles=>vehicles.uid==id).properties.name} `} 
+            className="img-fluid w-100 rounded" 
+            
+            onError={e => e.target.src = ''}
+          />}) },
+    { title: "FILMS", items: filmsId.map(id=>{ state.films.find(film=>film.uid==id).properties.name, <img 
+            src={`/assets/img/films/${id}.jpg`} 
+            alt={`img from ${state.films.find(film=>film.uid==id).properties.name} `} 
+            className="img-fluid w-100 rounded" 
+            
+            onError={e => e.target.src = ''}
+          />}) },
+    { title: "STARSHIPS", items: starshipsId.map(id=>{ state.starships.find(starship=>starship.uid==id).properties.name, <img 
+            src={`/assets/img/starships/${id}.jpg`} 
+            alt={`img from ${state.starships.find(starship=>starship.uid==id).properties.name} `} 
+            className="img-fluid w-100 rounded" 
+            
+            onError={e => e.target.src = ''}
+          />}) }
   ];
 
   return (
