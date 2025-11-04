@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import swapiData from "../services/swapi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -10,6 +10,7 @@ function Details() {
   
   const { state, dispatch } = useGlobalReducer();
   const { category, id } = useParams();
+  const [targetData, setTargetData]= useState({})
   
    useEffect(() => {
     const verifyLocalStoreData = async (data, setData) => {
@@ -21,6 +22,8 @@ function Details() {
         }
           const parsedData = JSON.parse(localStorage.getItem(data));
           dispatch({ type: setData, payload: parsedData });
+
+          console.log(parsedData)
         
       } catch (error) {
         console.log(error);
@@ -35,16 +38,21 @@ function Details() {
     verifyLocalStoreData("vehicles", "setVehicles");
   }, []);
 
+  useEffect(()=>{
+    setTargetData(state[category].find(item => item.uid == id))
+    console.log(state)
+  },[])
 
-
-  const targetData = state[category].find(item => item.uid == id);
+  /* const targetData = state[category].find(item => item.uid == id); */
+  
   
 
-  const character = {
+/*   const character = {
     name: targetData.properties.name||"",
     description:  targetData.description||"",
     imageUrl: `/assets/img/${category}/${id}.jpg`
-  };
+  }; */
+
 
   const planetId= targetData.properties.homeworld.split("planets/")[1];
   const vehicleId= targetData.properties.vehicles.map(vehicle=> vehicle.split("vehicles/")[1])

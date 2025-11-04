@@ -1,16 +1,30 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function CardComponent({ item, id }) {
+/* `/assets/img/${id}/${item.uid}.jpg` */
+const defaultImg="/assets/img/big-placeholder.jpg"
+  const [imgSrc, setImgSrc]=useState(defaultImg)
+  
+const getImageUrl=()=>{
+  const type= id=="people" ? "characters":id
+  const baseUrl= `https://raw.githubusercontent.com/tbone849/star-wars-guide/refs/heads/master/build/assets/img/${type}/${item.uid}.jpg`
+  return baseUrl
+}
 
   return (
     <>
       {id === "films"? (
         <div className="card h-100 m-1"> 
           <img 
-            src={`/assets/img/${id}/${item.uid}.jpg`}
+            src={getImageUrl()}
             className="card-img-top" 
             alt={item.properties.title}
-            onError={e=>e.target.src = "/assets/img/big-placeholder.jpg"} 
+            onError={(e)=>{
+              e.target.src=defaultImg
+              e.target.onerror=null
+            }}
+            
           />
           <div className="card-body">
             <h5 className="card-title">{item.properties.title}</h5>
@@ -22,10 +36,13 @@ function CardComponent({ item, id }) {
       (
         <div className="card h-100 m-1"> 
           <img 
-            src={`/assets/img/${id}/${item.uid}.jpg`}
+            src={getImageUrl()}
             className="card-img-top" 
             alt={item.name} 
-            onError={e=>e.target.src = "/assets/img/big-placeholder.jpg"}
+            onError={(e)=>{
+              e.target.src=defaultImg
+              e.target.onerror=null
+            }}
           />
           <div className="card-body">
             <h5 className="card-title">{item.properties.name}</h5>
