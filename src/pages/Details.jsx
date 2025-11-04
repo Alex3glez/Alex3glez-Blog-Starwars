@@ -45,6 +45,13 @@ function Details() {
 
   /* const targetData = state[category].find(item => item.uid == id); */
   
+  /* useEffect(() => {
+    if (state.people.length > 0) {
+      const data = state[category].find(item => item.uid == id); esto es lo cambiado
+      console.log(data)
+      setTargetData(data)
+    }
+  }, [state]) */
   
 
 /*   const character = {
