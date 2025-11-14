@@ -38,27 +38,35 @@ function Details() {
     verifyLocalStoreData("vehicles", "setVehicles");
   }, []);
 
-  useEffect(()=>{
-    setTargetData(state[category].find(item => item.uid == id))
-    console.log(state)
-  },[])
 
-  /* const targetData = state[category].find(item => item.uid == id); */
   
-  /* useEffect(() => {
+   useEffect(() => {
     if (state.people.length > 0) {
-      const data = state[category].find(item => item.uid == id); esto es lo cambiado
+      const data = state[category].find(item => item.uid == id); 
+
       console.log(data)
       setTargetData(data)
     }
-  }, [state]) */
+  }, [state, category, id]) 
   
+if (!targetData || !targetData.properties) {
 
-/*   const character = {
+    return (
+
+      <div className="container-fluid bg-dark text-light min-vh-100 p-4 p-md-5">
+
+        <h1 className="text-light">Loading...</h1>
+
+      </div>
+
+    );
+
+  }
+   const character = {
     name: targetData.properties.name||"",
     description:  targetData.description||"",
     imageUrl: `/assets/img/${category}/${id}.jpg`
-  }; */
+  }; 
 
 
   const planetId= targetData.properties.homeworld.split("planets/")[1];
