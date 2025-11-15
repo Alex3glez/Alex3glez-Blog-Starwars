@@ -1,16 +1,45 @@
 import { Link } from "react-router-dom";
+
 import { HashLink } from "react-router-hash-link";
 
-export function Navbar({ favorites = [] }) {
+import useGlobalReducer from "../hooks/useGlobalReducer";
+
+import { useEffect } from "react";
+
+export function Navbar() {
+  const { state, dispatch } = useGlobalReducer();
+
+  useEffect(() => {
+    const favoritesFromStorage = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+
+    dispatch({ type: "setFavorites", payload: favoritesFromStorage });
+  }, [dispatch]);
+
+  const handleDeleteFavorite = (itemToDelete) => {
+    const newFavorites = state.favorites.filter(
+      (fav) => !(fav.uid === itemToDelete.uid && fav.type === itemToDelete.type)
+    );
+
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
+
+    dispatch({ type: "setFavorites", payload: newFavorites });
+  };
+
   return (
     <nav
       id="mainNav"
       className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top"
     >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/" onClick={()=>window.scrollTo(0, 0)}>
+        <Link
+          className="navbar-brand"
+          to="/"
+          onClick={() => window.scrollTo(0, 0)}
+        >
           <img
-            src= "/assets/starwarsLogo.png"
+            src="/assets/starwarsLogo.png"
             alt="Star Wars Logo"
             width="80"
             style={{ height: "auto" }}
@@ -36,26 +65,31 @@ export function Navbar({ favorites = [] }) {
                 People
               </HashLink>
             </li>
+
             <li className="nav-item">
               <HashLink to="/#planetas" className="nav-link">
                 Planets
               </HashLink>
             </li>
+
             <li className="nav-item">
               <HashLink to="/#naves" className="nav-link">
                 Starships
               </HashLink>
             </li>
+
             <li className="nav-item">
               <HashLink to="/#vehiculos" className="nav-link">
                 Vehicles
               </HashLink>
             </li>
+
             <li className="nav-item">
               <HashLink to="/#especies" className="nav-link">
                 Species
               </HashLink>
             </li>
+
             <li className="nav-item">
               <HashLink className="nav-link" to="/#peliculas" smooth>
                 Films
@@ -73,24 +107,42 @@ export function Navbar({ favorites = [] }) {
                 aria-expanded="false"
               >
                 Favorites
-                <span className="badge bg-danger ms-1">{favorites.length}</span>
+                <span className="badge bg-danger ms-1">
+                  {state.favorites.length}
+                </span>
               </a>
 
               <ul
                 className="dropdown-menu dropdown-menu-end"
                 aria-labelledby="navbarDropdown"
               >
-                {favorites.length > 0 ? (
-                  favorites.map((fav) => (
-                    <li key={fav.id}>
-                      <a
-                        className="dropdown-item"
-                        href={`#/${fav.type}/${fav.id}`}
+                {state.favorites.length > 0 ? (
+                  state.favorites
+
+                    .filter((fav) => fav.properties)
+
+                    .map((fav) => (
+                      <li
+                        key={`${fav.type}-${fav.uid}`}
+                        className="d-flex justify-content-between align-items-center pe-2"
                       >
-                        {fav.name}
-                      </a>
-                    </li>
-                  ))
+                        <Link
+                          to={`/details/${fav.type}/${fav.uid}`}
+                          className="dropdown-item"
+                          onClick={() => window.scrollTo(0, 0)}
+                        >
+                          {fav.properties.name || fav.properties.title}
+                        </Link>
+
+                        <button
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => handleDeleteFavorite(fav)}
+                          aria-label="Eliminar favorito"
+                        >
+                          &times;
+                        </button>
+                      </li>
+                    ))
                 ) : (
                   <li>
                     <span className="dropdown-item-text">No hay favoritos</span>

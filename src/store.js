@@ -34,6 +34,6 @@ export default function stateReducer(state, action = {}) {
       return { ...state, favorites: action.payload }; 
 
     default:
-      throw state;
+      return state;
   }
 }

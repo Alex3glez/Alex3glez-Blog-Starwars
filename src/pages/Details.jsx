@@ -1,23 +1,35 @@
 import { useParams } from "react-router-dom";
+
 import useGlobalReducer from "../hooks/useGlobalReducer";
+
 import swapiData from "../services/swapi";
+
 import { useEffect, useState } from "react";
+
 import { dataGrid } from "../services/detailsDataGrid";
 
 function Details() {
   const { state, dispatch } = useGlobalReducer();
+
   const { category, id } = useParams();
+
   const [targetData, setTargetData] = useState({});
+
+  const defaultImg = "/assets/img/big-placeholder.jpg";
 
   useEffect(() => {
     const verifyLocalStoreData = async (data, setData) => {
       try {
         const localStoreData = localStorage.getItem(data);
+
         if (!localStoreData) {
           await swapiData(data);
+
           console.log(`se esta haciendoel fetch de ${data}`);
         }
+
         const parsedData = JSON.parse(localStorage.getItem(data));
+
         dispatch({ type: setData, payload: parsedData });
 
         console.log(parsedData);
@@ -27,21 +39,31 @@ function Details() {
     };
 
     verifyLocalStoreData("people", "setPeople");
+
     verifyLocalStoreData("planets", "setPlanets");
+
     verifyLocalStoreData("starships", "setStarships");
+
     verifyLocalStoreData("films", "setFilms");
+
     verifyLocalStoreData("species", "setSpecies");
+
     verifyLocalStoreData("vehicles", "setVehicles");
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (state[category].length > 0) {
+    if (state[category] && state[category].length > 0) {
       const data = state[category].find((item) => item.uid == id);
 
       console.log(data);
+
       setTargetData(data);
     }
   }, [state, category, id]);
+
+  const isFavorited = state.favorites.some(
+    (fav) => fav.uid === id && fav.type === category
+  );
 
   if (!targetData || !targetData.properties) {
     return (
@@ -50,9 +72,12 @@ function Details() {
       </div>
     );
   }
+
   const character = {
     name: targetData.properties.name || targetData.properties.title || "",
+
     description: targetData.description || "",
+
     imageUrl: `/assets/img/${category}/${id}.jpg`,
   };
 
@@ -72,6 +97,32 @@ function Details() {
     </div>
   );
 
+  const handleFavorite = () => {
+    if (!targetData || !targetData.uid) return;
+
+    const favorites = state.favorites;
+
+    const itemIndex = favorites.findIndex(
+      (fav) => fav.uid === id && fav.type === category
+    );
+
+    let newFavorites;
+
+    if (itemIndex > -1) {
+      newFavorites = favorites.filter(
+        (fav) => !(fav.uid === id && fav.type === category)
+      );
+    } else {
+      const itemToSave = { ...targetData, type: category };
+
+      newFavorites = [...favorites, itemToSave];
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
+
+    dispatch({ type: "setFavorites", payload: newFavorites });
+  };
+
   return (
     <div className="container-fluid bg-dark text-light min-vh-100 p-4 p-md-5">
       <div className="row">
@@ -80,7 +131,8 @@ function Details() {
             src={character.imageUrl}
             alt={character.name}
             className="img-fluid w-100 rounded"
-            onError={(e) => (e.target.src = "")}
+            onError={(e) => (e.target.src = defaultImg)}
+            _
           />
 
           {category == "films" && (
@@ -99,11 +151,25 @@ function Details() {
         </div>
 
         <div className="col-lg-7 col-md-12">
-          <div className="mb-4">
-            <h1 className="display-4 fw-bold">{character.name}</h1>
-            <p className="lead" style={{ color: "#ccc" }}>
-              {character.description}
-            </p>
+          <div className="d-flex justify-content-between">
+            <div className="mb-4">
+              <h1 className="display-4 fw-bold">{character.name}</h1>
+
+              <p className="lead" style={{ color: "#ccc" }}>
+                {character.description}_{" "}
+              </p>
+            </div>
+
+            <div>
+              <button
+                className={`btn ${
+                  isFavorited ? "btn-danger" : "btn-outline-danger"
+                } fs-1`}
+                onClick={handleFavorite}
+              >
+                {isFavorited ? "♥" : "♡"}
+              </button>
+            </div>
           </div>
 
           <hr
