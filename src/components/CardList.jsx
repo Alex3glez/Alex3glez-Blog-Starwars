@@ -48,7 +48,7 @@ function CardComponent({ item, id }) {
             <h5 className="card-title">{item.properties.name}</h5>
             <p className="card-text">{item.properties.gender}</p>
             <p className="card-text">{item.description}</p>
-            <Link to={`/details/${id}/${item.uid}`} className="btn btn-primary">
+            <Link to={`/details/${id}/${item.uid}`} className="btn btn-primary" onClick={()=>window.scrollTo(0, 0)}>
               More details
             </Link>
           </div>

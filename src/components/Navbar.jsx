@@ -10,7 +10,7 @@ export function Navbar({ favorites = [] }) {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/" onClick={()=>window.scrollTo(0, 0)}>
           <img
-            src="../../public/assets/starwarsLogo.png"
+            src="./../../public/assets/starwarsLogo.png"
             alt="Star Wars Logo"
             width="80"
             style={{ height: "auto" }}
