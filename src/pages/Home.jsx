@@ -3,7 +3,6 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import swapiData from "../services/swapi.js";
 import CardList from "../components/CardList.jsx";
 
-
 export const Home = () => {
   const { state, dispatch } = useGlobalReducer();
 
@@ -33,7 +32,7 @@ export const Home = () => {
     verifyLocalStoreData("species", "setSpecies");
     verifyLocalStoreData("vehicles", "setVehicles");
   }, []);
-  
+
   return (
     <div className="text-center mt-5">
       <div id="gente">

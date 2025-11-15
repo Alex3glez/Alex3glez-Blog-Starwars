@@ -5,10 +5,10 @@ export function Navbar({ favorites = [] }) {
   return (
     <nav
       id="mainNav"
-      className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"
+      className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top"
     >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/" onClick={()=>window.scrollTo(0, 0)}>
           <img
             src="../../public/assets/starwarsLogo.png"
             alt="Star Wars Logo"
@@ -37,19 +37,8 @@ export function Navbar({ favorites = [] }) {
               </HashLink>
             </li>
             <li className="nav-item">
-              <HashLink className="nav-link"  to="/#peliculas" smooth>
-                Films
-              </HashLink>
-            </li>
-
-            <li className="nav-item">
-              <HashLink to="/#planetas" className="nav-link" >
+              <HashLink to="/#planetas" className="nav-link">
                 Planets
-              </HashLink>
-            </li>
-            <li className="nav-item">
-              <HashLink to="/#especies" className="nav-link" >
-                Species
               </HashLink>
             </li>
             <li className="nav-item">
@@ -60,6 +49,16 @@ export function Navbar({ favorites = [] }) {
             <li className="nav-item">
               <HashLink to="/#vehiculos" className="nav-link">
                 Vehicles
+              </HashLink>
+            </li>
+            <li className="nav-item">
+              <HashLink to="/#especies" className="nav-link">
+                Species
+              </HashLink>
+            </li>
+            <li className="nav-item">
+              <HashLink className="nav-link" to="/#peliculas" smooth>
+                Films
               </HashLink>
             </li>
           </ul>
