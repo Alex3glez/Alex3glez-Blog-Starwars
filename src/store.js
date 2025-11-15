@@ -6,6 +6,7 @@ export const initialState = () => {
     vehicles: [],
     species: [],
     films: [],
+    favorites: [],
   };
 };
 
@@ -28,6 +29,9 @@ export default function stateReducer(state, action = {}) {
 
     case "setVehicles":
       return { ...state, vehicles: action.payload };
+
+     case "setFavorites":
+      return { ...state, favorites: action.payload }; 
 
     default:
       throw state;
